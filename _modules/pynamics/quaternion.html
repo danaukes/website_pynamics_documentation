@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pynamics.quaternion &#8212; pynamics 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pynamics.quaternion</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue May 25 10:24:05 2021</span>
+
+<span class="sd">@author: danaukes</span>
+<span class="sd">https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions</span>
+<span class="sd">https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation</span>
+<span class="sd">https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">(</span><span class="n">pretty_print</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span><span class="n">cos</span><span class="p">,</span><span class="n">tan</span><span class="p">,</span><span class="n">pi</span><span class="p">,</span><span class="n">acos</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<div class="viewcode-block" id="array"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.array">[docs]</a><span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="n">input1</span><span class="p">):</span>
+    <span class="c1"># return numpy.array(input1)</span>
+    <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">input1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cross"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.cross">[docs]</a><span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="c1"># return numpy.cross(a,b)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Quaternion"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion">[docs]</a><span class="k">class</span> <span class="nc">Quaternion</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">e0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="p">[</span><span class="n">e0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Quaternion.build_from_axis_angle"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.build_from_axis_angle">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">build_from_axis_angle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+        <span class="n">e0</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">x</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">y</span>
+        <span class="n">e3</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">UnitQuaternion</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="Quaternion.norm"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">**</span><span class="mf">.5</span></div>
+<div class="viewcode-block" id="Quaternion.norm_squared"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.norm_squared">[docs]</a>    <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">item</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span></div>
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamilton_product</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">other</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamilton_product</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">other</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamilton_product</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="c1"># raise TypeError</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">]:</span>
+                <span class="n">a</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Q(</span><span class="si">{0}</span><span class="s1">,</span><span class="si">{1}</span><span class="s1">,</span><span class="si">{2}</span><span class="s1">,</span><span class="si">{3}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<div class="viewcode-block" id="Quaternion.hamilton_product"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.hamilton_product">[docs]</a>    <span class="k">def</span> <span class="nf">hamilton_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">e01</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">e02</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">e11</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">e12</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">e21</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">e22</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">e31</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">e32</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">e0</span> <span class="o">=</span> <span class="n">e01</span><span class="o">*</span><span class="n">e02</span><span class="o">-</span><span class="n">e11</span><span class="o">*</span><span class="n">e12</span><span class="o">-</span><span class="n">e21</span><span class="o">*</span><span class="n">e22</span><span class="o">-</span><span class="n">e31</span><span class="o">*</span><span class="n">e32</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">e01</span><span class="o">*</span><span class="n">e12</span><span class="o">+</span><span class="n">e11</span><span class="o">*</span><span class="n">e02</span><span class="o">+</span><span class="n">e21</span><span class="o">*</span><span class="n">e32</span><span class="o">-</span><span class="n">e31</span><span class="o">*</span><span class="n">e22</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">e01</span><span class="o">*</span><span class="n">e22</span><span class="o">-</span><span class="n">e11</span><span class="o">*</span><span class="n">e32</span><span class="o">+</span><span class="n">e21</span><span class="o">*</span><span class="n">e02</span><span class="o">+</span><span class="n">e31</span><span class="o">*</span><span class="n">e12</span>
+        <span class="n">e3</span> <span class="o">=</span> <span class="n">e01</span><span class="o">*</span><span class="n">e32</span><span class="o">+</span><span class="n">e11</span><span class="o">*</span><span class="n">e22</span><span class="o">-</span><span class="n">e21</span><span class="o">*</span><span class="n">e12</span><span class="o">+</span><span class="n">e31</span><span class="o">*</span><span class="n">e02</span>
+        <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Quaternion.scalar"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.scalar">[docs]</a>    <span class="k">def</span> <span class="nf">scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">e0</span></div>
+<div class="viewcode-block" id="Quaternion.vector"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.vector">[docs]</a>    <span class="k">def</span> <span class="nf">vector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Quaternion.conjugate"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+<div class="viewcode-block" id="Quaternion.inv"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+<div class="viewcode-block" id="Quaternion.unit"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.unit">[docs]</a>    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">UnitQuaternion</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Quaternion.rotate_by"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.rotate_by">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+<div class="viewcode-block" id="Quaternion.sum"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.sum">[docs]</a>    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+    <span class="c1"># def multiply(self,other):</span>
+    <span class="c1">#     e0 = self.e0*other.e0-dot(self.vector(),other.vector())</span>
+    <span class="c1">#     v = self.e0*other.vector()+other.e0*self.vector()+cross(self.vector(),other.vector())</span>
+    <span class="c1">#     new = Quaternion(e0,*v)</span>
+    <span class="c1">#     return new</span>
+<div class="viewcode-block" id="Quaternion.expand"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.expand">[docs]</a>    <span class="k">def</span> <span class="nf">expand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">expand</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+<div class="viewcode-block" id="Quaternion.conjugation"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.Quaternion.conjugation">[docs]</a>    <span class="k">def</span> <span class="nf">conjugation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">other</span><span class="o">*</span><span class="bp">self</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+    
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">Quaternion</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">e</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">)</span></div>
+    
+    
+    
+<div class="viewcode-block" id="UnitQuaternion"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion">[docs]</a><span class="k">class</span> <span class="nc">UnitQuaternion</span><span class="p">(</span><span class="n">Quaternion</span><span class="p">):</span>
+<div class="viewcode-block" id="UnitQuaternion.build_from_axis_angle"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion.build_from_axis_angle">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">build_from_axis_angle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+        <span class="n">e0</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">x</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">y</span>
+        <span class="n">e3</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="n">z</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UnitQuaternion.hamilton_product"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion.hamilton_product">[docs]</a>    <span class="k">def</span> <span class="nf">hamilton_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">UnitQuaternion</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">hamilton_product</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="n">UnitQuaternion</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">UnitQuaternion</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="UnitQuaternion.rotate"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="n">l</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">l</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">conjugation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">l</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">vector</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="n">UnitQuaternion</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">UnitQuaternion</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span></div>
+        <span class="c1"># q = self</span>
+        <span class="c1"># t = 2*cross(q.vector(),v.vector())</span>
+        <span class="c1"># new = v.vector()+q.e[0]*t+cross(q.vector(),t)</span>
+        <span class="c1"># new = Quaternion(sympy.Number(0),*new)</span>
+        <span class="c1"># return new</span>
+
+<div class="viewcode-block" id="UnitQuaternion.inv"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="UnitQuaternion.unit"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.UnitQuaternion.unit">[docs]</a>    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+    
+<div class="viewcode-block" id="VectorQuaternion"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.quaternion.VectorQuaternion">[docs]</a><span class="k">class</span> <span class="nc">VectorQuaternion</span><span class="p">(</span><span class="n">Quaternion</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">e3</span><span class="p">]</span></div>
+    
+        
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;a,b,c,d&#39;</span><span class="p">)</span>    
+<span class="n">e</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;e,f,g,h&#39;</span><span class="p">)</span>    
+<span class="n">q</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>        
+
+<span class="n">v1</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span> 
+<span class="n">v12</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">UnitQuaternion</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> 
+<span class="c1"># q = Quaternion.build_from_axis_angle(q, 0,0,1)</span>
+<span class="c1"># v1 = Quaternion(0,2,3,4)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">rotate_by</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="n">v22</span> <span class="o">=</span> <span class="n">q</span><span class="o">*</span><span class="n">v1</span><span class="o">*</span><span class="n">q</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">v12</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pynamics</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pynamics/modules.html"> </a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pynamics.html">pynamics</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Dan Aukes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

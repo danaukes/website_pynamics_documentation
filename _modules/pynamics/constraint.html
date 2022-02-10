@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pynamics.constraint &#8212; pynamics 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pynamics.constraint</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Jun 10 18:54:50 2020</span>
+
+<span class="sd">@author: danaukes</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pynamics.constraint&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OutOfTol"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.constraint.OutOfTol">[docs]</a><span class="k">class</span> <span class="nc">OutOfTol</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="KinematicConstraint"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.constraint.KinematicConstraint">[docs]</a><span class="k">class</span> <span class="nc">KinematicConstraint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">eq</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span>
+        <span class="c1"># self.solved = False</span>
+        
+    <span class="c1"># def linearize(self,system):</span>
+    <span class="c1">#     eq = self.eq</span>
+    <span class="c1">#     eq_linear=[(system.derivative(item)) for item in eq]</span>
+    <span class="c1">#     self.eq_linear = eq_linear</span>
+
+    <span class="c1"># def solve(self,q_ind,q_dep,inv_method = &#39;LU&#39;):</span>
+    <span class="c1">#     self.q_dep = q_dep</span>
+    <span class="c1">#     self.q_ind = q_ind</span>
+        
+    <span class="c1">#     logger.info(&#39;solving constraint&#39;)</span>
+
+    <span class="c1">#     EQ = sympy.Matrix(self.eq_linear)</span>
+    <span class="c1">#     AA = EQ.jacobian(sympy.Matrix(q_ind))</span>
+    <span class="c1">#     BB = EQ.jacobian(sympy.Matrix(q_dep))</span>
+    
+    <span class="c1">#     CC = EQ - AA*(sympy.Matrix(q_ind)) - BB*(sympy.Matrix(q_dep))</span>
+    <span class="c1">#     CC = sympy.simplify(CC)</span>
+    <span class="c1">#     assert(sum(CC)==0)</span>
+    
+    <span class="c1">#     self.J = sympy.simplify(BB.solve(-(AA),method = inv_method))</span>
+        
+    <span class="c1">#     self.subs = dict([(a,b) for a,b in zip(q_dep,self.J*sympy.Matrix(q_ind))])</span>
+    <span class="c1">#     self.solved = True</span>
+    <span class="c1">#     return self.J, self.subs</span>
+    
+<div class="viewcode-block" id="KinematicConstraint.solve_numeric"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.constraint.KinematicConstraint.solve_numeric">[docs]</a>    <span class="k">def</span> <span class="nf">solve_numeric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">variables</span><span class="p">,</span> <span class="n">guess</span><span class="p">,</span> <span class="o">*</span><span class="n">my_constants</span><span class="p">,</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scipy.optimize</span>
+        <span class="c1"># all_substitutions = {}</span>
+        <span class="c1"># print()</span>
+        <span class="c1"># [all_substitutions.update(item) for item in substitutions]</span>
+        <span class="c1"># print(all_substitutions)</span>
+        <span class="n">constants</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">my_constants</span><span class="p">:</span>
+            <span class="n">constants</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">constants</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Warning</span><span class="p">(</span><span class="s1">&#39;A variable which you are solving for is being supplied in constants&#39;</span><span class="p">,</span><span class="n">item</span><span class="p">)</span>
+                
+        <span class="n">eq</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">]</span>
+        <span class="n">eq</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="n">eq</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">function</span><span class="p">,</span><span class="n">guess</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">fun</span><span class="o">&gt;</span><span class="n">tol</span><span class="p">:</span>
+            <span class="k">raise</span><span class="p">(</span><span class="n">OutOfTol</span><span class="p">())</span>
+        <span class="n">dict1</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">dict1</span></div></div>
+
+<div class="viewcode-block" id="AccelerationConstraint"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.constraint.AccelerationConstraint">[docs]</a><span class="k">class</span> <span class="nc">AccelerationConstraint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">eq</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span></div>
+        
+    <span class="c1"># def solve(self,inv_method = &#39;LU&#39;):</span>
+        
+    <span class="c1">#     logger.info(&#39;solving constraint&#39;)</span>
+
+    <span class="c1">#     EQ = sympy.Matrix(self.eq)</span>
+    <span class="c1">#     AA = EQ.jacobian(sympy.Matrix(self.q_ind))</span>
+    <span class="c1">#     BB = EQ.jacobian(sympy.Matrix(self.q_dep))</span>
+    
+    <span class="c1">#     CC = EQ - AA*(sympy.Matrix(self.q_ind)) - BB*(sympy.Matrix(self.q_dep))</span>
+    <span class="c1">#     CC = sympy.simplify(CC)</span>
+    <span class="c1">#     assert(sum(CC)==0)</span>
+    
+    <span class="c1">#     self.J = sympy.simplify(BB.solve(-(AA),method = inv_method))</span>
+        
+    <span class="c1">#     self.subs = dict([(a,b) for a,b in zip(self.q_dep,self.J*sympy.Matrix(self.q_ind))])</span>
+    <span class="c1">#     self.solved = True</span>
+    <span class="c1">#     return self.J, self.subs</span>
+
+
+    <span class="c1"># def get_constraint_matrix(self,inv_method = &#39;LU&#39;):</span>
+        
+    <span class="c1">#     logger.info(&#39;solving constraint&#39;)</span>
+
+    <span class="c1">#     EQ = sympy.Matrix(self.eq)</span>
+    <span class="c1">#     AA = EQ.jacobian(sympy.Matrix(self.q_ind))</span>
+    <span class="c1">#     BB = EQ.jacobian(sympy.Matrix(self.q_dep))</span>
+    
+    <span class="c1">#     CC = EQ - AA*(sympy.Matrix(self.q_ind)) - BB*(sympy.Matrix(self.q_dep))</span>
+    <span class="c1">#     CC = sympy.simplify(CC)</span>
+    <span class="c1">#     assert(sum(CC)==0)</span>
+    
+    <span class="c1">#     self.J = sympy.simplify(BB.solve(-(AA),method = inv_method))</span>
+        
+    <span class="c1">#     return self.J</span>
+    
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pynamics</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pynamics/modules.html"> </a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pynamics.html">pynamics</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Dan Aukes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

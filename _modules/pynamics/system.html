@@ -1,0 +1,753 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pynamics.system &#8212; pynamics 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pynamics.system</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Written by Daniel M. Aukes</span>
+<span class="sd">Email: danaukes&lt;at&gt;gmail.com</span>
+<span class="sd">Please see LICENSE for full license.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">(</span><span class="n">use_latex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">pretty_print</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pynamics</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">pynamics.force</span> <span class="kn">import</span> <span class="n">Force</span>
+<span class="kn">from</span> <span class="nn">pynamics.spring</span> <span class="kn">import</span> <span class="n">Spring</span>
+<span class="kn">from</span> <span class="nn">pynamics.variable_types</span> <span class="kn">import</span> <span class="n">Differentiable</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pynamics.system&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="static_vars"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.static_vars">[docs]</a><span class="k">def</span> <span class="nf">static_vars</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">decorate</span></div>
+    
+<div class="viewcode-block" id="System"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System">[docs]</a><span class="k">class</span> <span class="nc">System</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">derivatives</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constant_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1">#        self.momentum = []</span>
+<span class="c1">#        self.KE = sympy.Number(0)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bodies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replacements</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">springs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ini</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_tolerance</span> <span class="o">=</span> <span class="mf">1e-16</span>
+
+<div class="viewcode-block" id="System.set_ini"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.set_ini">[docs]</a>    <span class="k">def</span> <span class="nf">set_ini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ini</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">=</span><span class="n">val</span></div>
+
+<div class="viewcode-block" id="System.add_q"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_q">[docs]</a>    <span class="k">def</span> <span class="nf">add_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">ii</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ii</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="p">]</span></div>
+
+    <span class="c1"># def get_dependent_solved(self):</span>
+    <span class="c1">#     q_dep = []</span>
+    <span class="c1">#     for constraint in self.constraints:</span>
+    <span class="c1">#         # if constraint.solved:</span>
+    <span class="c1">#         q_dep.extend(constraint.q_dep)</span>
+    <span class="c1">#     return q_dep</span>
+
+<div class="viewcode-block" id="System.get_q"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.get_q">[docs]</a>    <span class="k">def</span> <span class="nf">get_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ii</span><span class="p">):</span>
+        <span class="c1"># q_dep = self.get_dependent_solved()</span>
+        <span class="k">if</span> <span class="n">ii</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">:</span>
+            <span class="c1"># q_ind = [item for item in self.q[ii] if item not in q_dep]</span>
+            <span class="n">q_ind</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">q_ind</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+        
+<div class="viewcode-block" id="System.get_state_variables"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.get_state_variables">[docs]</a>    <span class="k">def</span> <span class="nf">get_state_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">state_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state_var</span></div>
+    
+<div class="viewcode-block" id="System.set_newtonian"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.set_newtonian">[docs]</a>    <span class="k">def</span> <span class="nf">set_newtonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">frame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newtonian</span> <span class="o">=</span> <span class="n">frame</span></div>
+        
+<div class="viewcode-block" id="System.add_frame"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_frame">[docs]</a>    <span class="k">def</span> <span class="nf">add_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">frame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="System.generatez"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.generatez">[docs]</a>    <span class="k">def</span> <span class="nf">generatez</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replacements</span><span class="p">[</span><span class="n">z</span><span class="p">]</span><span class="o">=</span><span class="n">number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">z</span></div>
+
+<div class="viewcode-block" id="System.addforce_direct"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.addforce_direct">[docs]</a>    <span class="k">def</span> <span class="nf">addforce_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="System.addforce"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.addforce">[docs]</a>    <span class="k">def</span> <span class="nf">addforce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">force</span><span class="p">,</span><span class="n">velocity</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">=</span><span class="n">Force</span><span class="p">(</span><span class="n">force</span><span class="p">,</span><span class="n">velocity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+
+<div class="viewcode-block" id="System.add_spring_force1"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_spring_force1">[docs]</a>    <span class="k">def</span> <span class="nf">add_spring_force1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">stretch</span><span class="p">,</span><span class="n">velocity</span><span class="p">):</span>
+        <span class="n">force</span> <span class="o">=</span> <span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">stretch</span>
+        <span class="n">f</span><span class="o">=</span><span class="n">Force</span><span class="p">(</span><span class="n">force</span><span class="p">,</span><span class="n">velocity</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">Spring</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">stretch</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">springs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">,</span><span class="n">s</span></div>
+
+<div class="viewcode-block" id="System.add_spring_force2"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_spring_force2">[docs]</a>    <span class="k">def</span> <span class="nf">add_spring_force2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">stretch</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">):</span>
+        <span class="n">force</span> <span class="o">=</span> <span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">stretch</span>
+        <span class="n">f1</span><span class="o">=</span><span class="n">Force</span><span class="p">(</span><span class="n">force</span><span class="p">,</span><span class="n">v1</span><span class="p">)</span>
+        <span class="n">f2</span><span class="o">=</span><span class="n">Force</span><span class="p">(</span><span class="n">force</span><span class="p">,</span><span class="n">v2</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">Spring</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">stretch</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">springs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">s</span></div>
+
+<div class="viewcode-block" id="System.remove_spring"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.remove_spring">[docs]</a>    <span class="k">def</span> <span class="nf">remove_spring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">spring</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">springs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">spring</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">spring</span><span class="o">.</span><span class="n">forces</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+<span class="c1">#    def addmomentum(self,momentum,velocity):</span>
+<span class="c1">#        self.momentum.append((momentum,velocity))</span>
+
+<div class="viewcode-block" id="System.get_KE"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.get_KE">[docs]</a>    <span class="k">def</span> <span class="nf">get_KE</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">KE</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">bodies</span><span class="p">:</span>
+            <span class="n">KE</span><span class="o">+=</span> <span class="n">item</span><span class="o">.</span><span class="n">KE</span>
+        <span class="k">return</span> <span class="n">KE</span></div>
+<span class="c1">#    def addKE(self,KE):</span>
+<span class="c1">#        self.KE+=KE</span>
+
+<div class="viewcode-block" id="System.set_derivative"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.set_derivative">[docs]</a>    <span class="k">def</span> <span class="nf">set_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">expression</span><span class="p">,</span><span class="n">variable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">derivatives</span><span class="p">[</span><span class="n">expression</span><span class="p">]</span><span class="o">=</span><span class="n">variable</span></div>
+
+<div class="viewcode-block" id="System.add_constant"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_constant">[docs]</a>    <span class="k">def</span> <span class="nf">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">constant</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="System.add_constant_value"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_constant_value">[docs]</a>    <span class="k">def</span> <span class="nf">add_constant_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">constant</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constant_values</span><span class="p">[</span><span class="n">constant</span><span class="p">]</span><span class="o">=</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="System.getPEGravity"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.getPEGravity">[docs]</a>    <span class="k">def</span> <span class="nf">getPEGravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">point</span><span class="p">):</span>
+        <span class="n">PE</span> <span class="o">=</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">ZERO</span>
+        <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bodies</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">body</span><span class="o">.</span><span class="n">gravityvector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">pCM</span> <span class="o">-</span> <span class="n">point</span>
+                <span class="n">F</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">forcegravity</span>
+                <span class="n">PE</span> <span class="o">+=</span> <span class="n">F</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PE</span></div>
+
+<div class="viewcode-block" id="System.getPESprings"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.getPESprings">[docs]</a>    <span class="k">def</span> <span class="nf">getPESprings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">PE</span> <span class="o">=</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">ZERO</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">springs</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">k</span>
+            <span class="n">stretch</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">s</span>
+            <span class="n">PE</span><span class="o">+=</span><span class="mf">.5</span><span class="o">*</span><span class="n">k</span><span class="o">*</span><span class="n">stretch</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">stretch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PE</span></div>
+        
+<div class="viewcode-block" id="System.addforcegravity"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.addforcegravity">[docs]</a>    <span class="k">def</span> <span class="nf">addforcegravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">gravityvector</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bodies</span><span class="p">:</span>
+            <span class="n">body</span><span class="o">.</span><span class="n">addforcegravity</span><span class="p">(</span><span class="n">gravityvector</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">particle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">:</span>
+            <span class="n">particle</span><span class="o">.</span><span class="n">addforcegravity</span><span class="p">(</span><span class="n">gravityvector</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="System.getdynamics"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.getdynamics">[docs]</a>    <span class="k">def</span> <span class="nf">getdynamics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q_speed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;getting dynamic equations&#39;</span><span class="p">)</span>
+        
+        <span class="n">effectiveforces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">particle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">:</span>
+            <span class="n">effectiveforces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">adddynamics</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bodies</span><span class="p">:</span>
+            <span class="n">effectiveforces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">adddynamics</span><span class="p">())</span>
+
+        <span class="n">q_d</span> <span class="o">=</span> <span class="n">q_speed</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">generalizedforce</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generalize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">,</span><span class="n">q_d</span><span class="p">)</span>
+        <span class="n">generalizedeffectiveforce</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generalize</span><span class="p">(</span><span class="n">effectiveforces</span><span class="p">,</span><span class="n">q_d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">generalizedforce</span><span class="p">,</span><span class="n">generalizedeffectiveforce</span></div>
+
+<div class="viewcode-block" id="System.generalize"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.generalize">[docs]</a>    <span class="k">def</span> <span class="nf">generalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">list1</span><span class="p">,</span><span class="n">q_d</span><span class="p">):</span>
+        <span class="n">generalized</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">speed</span> <span class="ow">in</span> <span class="n">q_d</span><span class="p">:</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">ZERO</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list1</span><span class="p">:</span>
+                <span class="n">expression</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">f</span>
+                <span class="n">velocity</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">v</span>
+                <span class="n">new</span><span class="o">+=</span><span class="n">expression</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">velocity</span><span class="o">.</span><span class="n">diff_partial_local</span><span class="p">(</span><span class="n">speed</span><span class="p">))</span>
+            <span class="n">generalized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">generalized</span></div>
+        
+    
+    <span class="c1"># def solve_f_ma(self,f,ma,q_dd,inv_method = &#39;LU&#39;,constants = None):</span>
+    <span class="c1">#     constants = constants or {}</span>
+        
+    <span class="c1">#     f = sympy.Matrix(f)</span>
+    <span class="c1">#     ma = sympy.Matrix(ma)</span>
+        
+    <span class="c1">#     Ax_b = ma-f</span>
+    <span class="c1">#     Ax_b = Ax_b.subs(constants)</span>
+    <span class="c1">#     A = Ax_b.jacobian(q_dd)</span>
+    <span class="c1">#     b = -Ax_b.subs(dict(list([(item,0) for item in q_dd])))</span>
+
+    <span class="c1">#     var_dd = A.solve(b,method = inv_method)</span>
+    <span class="c1">#     return var_dd</span>
+        
+<div class="viewcode-block" id="System.state_space_pre_invert"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.state_space_pre_invert">[docs]</a>    <span class="k">def</span> <span class="nf">state_space_pre_invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">ma</span><span class="p">,</span><span class="n">inv_method</span> <span class="o">=</span> <span class="s1">&#39;LU&#39;</span><span class="p">,</span><span class="n">constants</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">q_acceleration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_speed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_position</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving a = f/m and creating function&#39;</span><span class="p">)</span>
+        <span class="sd">&#39;&#39;&#39;pre-invert A matrix&#39;&#39;&#39;</span>
+        <span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">remaining_constant_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q_position</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q_d</span> <span class="o">=</span> <span class="n">q_speed</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">q_dd</span> <span class="o">=</span> <span class="n">q_acceleration</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q_state</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">q_d</span>
+        <span class="c1"># q_ind = q_ind or []</span>
+        <span class="c1"># q_dep = q_dep or []</span>
+        <span class="c1"># eq = eq or []</span>
+<span class="c1"># </span>
+        <span class="c1"># logger.info(&#39;solving constraints&#39;)</span>
+        
+        <span class="c1"># for constra</span>
+        <span class="c1"># if len(eq)&gt;0:</span>
+        <span class="c1">#     EQ = sympy.Matrix(eq)</span>
+        <span class="c1">#     AA = EQ.jacobian(sympy.Matrix(q_ind))</span>
+        <span class="c1">#     BB = EQ.jacobian(sympy.Matrix(q_dep))</span>
+        
+        <span class="c1">#     CC = EQ - AA*(sympy.Matrix(q_ind)) - BB*(sympy.Matrix(q_dep))</span>
+        <span class="c1">#     CC = sympy.simplify(CC)</span>
+        <span class="c1">#     assert(sum(CC)==0)</span>
+        
+        <span class="c1">#     dep2 = sympy.simplify(BB.solve(-(AA),method = inv_method))</span>
+        
+        <span class="c1"># logger.info(&#39;solved constraints.&#39;)</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">ma</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span>
+        
+        <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">ma</span><span class="o">-</span><span class="n">f</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;substituting constants in Ma-f. &#39;</span><span class="p">)</span>
+        <span class="c1"># if not not constants:</span>
+        <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+        <span class="c1"># f = f.subs(constants)</span>
+        <span class="c1"># ma = ma.subs(constants)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;substituting constrained in Ma-f.&#39;</span> <span class="p">)</span>
+        <span class="c1"># for constraint in self.constraints:</span>
+            <span class="c1"># if constraint.solved:</span>
+                <span class="c1"># subs1 = dict([(a,b) for a,b in zip(q_dep,dep2*sympy.Matrix(q_ind))])</span>
+                <span class="c1"># Ax_b = Ax_b.subs(constraint.subs)</span>
+                <span class="c1"># ma = ma.subs(constraint.subs)</span>
+                <span class="c1"># f = f.subs(constraint.subs)</span>
+
+        <span class="c1"># logger.info(&#39;simplifying Ax-b&#39;)</span>
+
+        <span class="c1"># Ax_b = sympy.simplify(Ax_b)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;finding A&#39;</span><span class="p">)</span>
+        
+        <span class="n">A</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+        <span class="c1"># M = ma.jacobian(q_dd)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;simplifying A&#39;</span><span class="p">)</span>
+        
+        <span class="n">A</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;finding b&#39;</span><span class="p">)</span>
+
+        <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+        <span class="c1"># M = sympy.simplify(M)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="n">n</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eq_dd</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+                <span class="n">eq_dd</span> <span class="o">+=</span> <span class="n">constraint</span><span class="o">.</span><span class="n">eq</span>
+            <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+                <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">)</span>   
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">A_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">J</span>
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="n">m</span><span class="p">:]</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">T</span>
+        
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">b_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">b</span>
+            <span class="n">b_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">c</span>
+        
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving M&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># acc = M.solve(f,method = inv_method)</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">A_full</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b_full</span><span class="p">,</span><span class="n">method</span> <span class="o">=</span> <span class="n">inv_method</span><span class="p">)</span>
+        <span class="c1">#         # return var_dd</span>
+            
+        <span class="n">state_augmented</span> <span class="o">=</span> <span class="n">q_state</span><span class="o">+</span><span class="n">remaining_constant_keys</span><span class="o">+</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">]</span>
+        
+        <span class="n">f_acc</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_augmented</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span>
+        
+        <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q</span><span class="p">])</span>
+        <span class="c1"># for constraint in self.constraints:</span>
+            <span class="c1"># position_derivatives = position_derivatives.subs(constraint.subs)</span>
+        <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">position_derivatives</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+        <span class="n">f_position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_augmented</span><span class="p">,</span><span class="n">position_derivatives</span><span class="p">)</span>
+
+        <span class="nd">@static_vars</span><span class="p">(</span><span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="n">arg1</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg0</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg1</span>
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg0</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg1</span>
+        
+            <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">%</span><span class="mi">1000</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;integration at time </span><span class="si">{0:07.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">+=</span><span class="mi">1</span>
+            
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">constant_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">][</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">remaining_constant_keys</span><span class="p">]</span>
+            <span class="n">state_i_augmented</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="n">constant_values</span><span class="o">+</span><span class="p">[</span><span class="n">time</span><span class="p">]</span>
+            
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_position_derivatives</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_augmented</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_acc</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">state_i_augmented</span><span class="p">)))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">[:</span><span class="n">m</span><span class="p">]]</span>
+            <span class="n">x4</span> <span class="o">=</span> <span class="n">x3</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            
+            <span class="k">return</span> <span class="n">x4</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;done solving a = f/m and creating function&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">func</span></div>
+
+<div class="viewcode-block" id="System.state_space_post_invert"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.state_space_post_invert">[docs]</a>    <span class="k">def</span> <span class="nf">state_space_post_invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">ma</span><span class="p">,</span><span class="n">eq_dd</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">constants</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">q_acceleration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_speed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_position</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">return_lambda</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span><span class="n">variable_functions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;invert A matrix each call&#39;&#39;&#39;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving a = f/m and creating function&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">eq_dd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;eq_dd is no longer being used, please use pynamics acceleration constraints instead&#39;</span><span class="p">))</span>
+
+        <span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">variable_functions</span> <span class="o">=</span> <span class="n">variable_functions</span> <span class="ow">or</span> <span class="p">{}</span>
+        
+        <span class="n">remaining_constant_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q_position</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q_d</span> <span class="o">=</span> <span class="n">q_speed</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">q_dd</span> <span class="o">=</span> <span class="n">q_acceleration</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q_state</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">q_d</span>
+        
+        <span class="n">f</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">ma</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span>
+        
+        <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">ma</span><span class="o">-</span><span class="n">f</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+            <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+
+               
+            
+        <span class="n">A</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+    
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;substituting constrained in Ma-f.&#39;</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="n">n</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eq_dd</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+                <span class="n">eq_dd</span> <span class="o">+=</span> <span class="n">constraint</span><span class="o">.</span><span class="n">eq</span>
+            <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+                <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">)</span>   
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">A_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">J</span>
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="n">m</span><span class="p">:]</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">T</span>
+        
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">b_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">b</span>
+            <span class="n">b_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">c</span>
+
+        <span class="n">variables</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">variable_functions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">state_full</span> <span class="o">=</span> <span class="n">q_state</span><span class="o">+</span><span class="n">remaining_constant_keys</span><span class="o">+</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">]</span><span class="o">+</span><span class="n">variables</span>
+
+        <span class="n">fA</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">A_full</span><span class="p">)</span>
+        <span class="n">fb</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">b_full</span><span class="p">)</span>
+
+        <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+            <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">position_derivatives</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            
+        <span class="n">f_position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">position_derivatives</span><span class="p">)</span>
+        
+    
+        <span class="nd">@static_vars</span><span class="p">(</span><span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="n">arg1</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg1</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg0</span>
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg0</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg1</span>
+        
+            <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">%</span><span class="mi">1000</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;integration at time </span><span class="si">{0:07.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">+=</span><span class="mi">1</span>
+            
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+            <span class="n">constant_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">][</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">remaining_constant_keys</span><span class="p">]</span>
+            <span class="n">vi</span> <span class="o">=</span> <span class="p">[</span><span class="n">variable_functions</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">time</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">]</span>
+
+            <span class="n">state_i_full</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="n">constant_values</span><span class="o">+</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">+</span><span class="n">vi</span>
+
+                
+            <span class="n">Ai</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fA</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">bi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fb</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_position_derivatives</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Ai</span><span class="p">,</span><span class="n">bi</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">[:</span><span class="n">m</span><span class="p">]]</span>
+            <span class="n">x4</span> <span class="o">=</span> <span class="n">x3</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            
+            <span class="k">return</span> <span class="n">x4</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;done solving a = f/m and creating function&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">return_lambda</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span>        
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;calculating function for lambdas&#39;</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">lambdas</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">state</span><span class="p">,</span><span class="n">constants</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span> <span class="ow">or</span> <span class="p">{}</span>
+    
+                <span class="n">constant_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">constants</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">remaining_constant_keys</span><span class="p">]</span>
+                <span class="n">vi</span> <span class="o">=</span> <span class="p">[</span><span class="n">variable_functions</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">time</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">]</span>
+    
+                <span class="n">state_i_full</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="n">constant_values</span><span class="o">+</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">+</span><span class="n">vi</span>
+                    
+                <span class="n">Ai</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fA</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="n">bi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fb</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                
+                <span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Ai</span><span class="p">,</span><span class="n">bi</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="n">x4</span> <span class="o">=</span> <span class="n">x2</span><span class="p">[</span><span class="n">m</span><span class="p">:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                
+                <span class="k">return</span> <span class="n">x4</span>
+    
+            <span class="k">return</span> <span class="n">func</span><span class="p">,</span><span class="n">lambdas</span></div>
+
+<div class="viewcode-block" id="System.state_space_post_invert2"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.state_space_post_invert2">[docs]</a>    <span class="k">def</span> <span class="nf">state_space_post_invert2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">ma</span><span class="p">,</span><span class="n">eq_dd</span><span class="p">,</span><span class="n">eq_d</span><span class="p">,</span><span class="n">eq</span><span class="p">,</span><span class="n">eq_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">constants</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">q_acceleration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_speed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">q_position</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;invert A matrix each call&#39;&#39;&#39;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving a = f/m and creating function&#39;</span><span class="p">)</span>
+        
+        <span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">remaining_constant_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q_position</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q_d</span> <span class="o">=</span> <span class="n">q_speed</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">q_dd</span> <span class="o">=</span> <span class="n">q_acceleration</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_q</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q_state</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">q_d</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">eq_dd</span><span class="p">:</span>
+            <span class="n">eq_active</span> <span class="o">=</span> <span class="n">eq_active</span> <span class="ow">or</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eq_active</span> <span class="o">=</span> <span class="n">eq_active</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">eq_active</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_active</span><span class="p">)</span>
+    
+        <span class="n">eq</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="n">eq_d</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_d</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_dd</span> <span class="ow">or</span> <span class="p">[])</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">ma</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span>
+        
+        <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">ma</span><span class="o">-</span><span class="n">f</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+            <span class="n">Ax_b</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">eq_active</span> <span class="o">=</span> <span class="n">eq_active</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">eq</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">eq_d</span> <span class="o">=</span> <span class="n">eq_d</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            <span class="n">eq_dd</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+            
+        <span class="n">A</span> <span class="o">=</span> <span class="n">Ax_b</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ax_b</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">eq_dd</span><span class="p">:</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="n">n</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="n">eq_dd</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dd</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="n">eq_dd</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">([(</span><span class="n">item</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q_dd</span><span class="p">])))</span>
+
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq_dd</span><span class="p">)</span>
+            <span class="n">A_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">)</span>   
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
+            <span class="n">A_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,:</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">J</span>
+            <span class="n">A_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="n">m</span><span class="p">:]</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">T</span>
+        
+            <span class="n">b_full</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">b_full</span><span class="p">[:</span><span class="n">m</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">b</span>
+            <span class="n">b_full</span><span class="p">[</span><span class="n">m</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">c</span>
+
+            
+        <span class="n">state_full</span> <span class="o">=</span> <span class="n">q_state</span><span class="o">+</span><span class="n">remaining_constant_keys</span><span class="o">+</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">]</span>
+
+        <span class="n">fA</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">A_full</span><span class="p">)</span>
+        <span class="n">fb</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">b_full</span><span class="p">)</span>
+        <span class="n">feq</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">eq</span><span class="p">)</span>
+        <span class="n">feq_d</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">eq_d</span><span class="p">)</span>
+        <span class="n">factive</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">eq_active</span><span class="p">)</span>
+
+        <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">q</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">constants</span><span class="p">:</span>
+            <span class="n">position_derivatives</span> <span class="o">=</span> <span class="n">position_derivatives</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">constants</span><span class="p">)</span>
+        <span class="n">f_position_derivatives</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">state_full</span><span class="p">,</span><span class="n">position_derivatives</span><span class="p">)</span>
+
+        <span class="nd">@static_vars</span><span class="p">(</span><span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span><span class="n">arg1</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg0</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg1</span>
+            <span class="k">if</span> <span class="n">pynamics</span><span class="o">.</span><span class="n">integrator</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">arg0</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">arg1</span>
+
+            <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">%</span><span class="mi">1000</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;integration at time </span><span class="si">{0:07.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">func</span><span class="o">.</span><span class="n">ii</span><span class="o">+=</span><span class="mi">1</span>
+            
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
+
+            <span class="n">constant_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">][</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">remaining_constant_keys</span><span class="p">]</span>
+            <span class="n">state_i_full</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="n">constant_values</span><span class="o">+</span><span class="p">[</span><span class="n">time</span><span class="p">]</span>
+                
+            <span class="n">Ai</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fA</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">bi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fb</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">eqi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">feq</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="n">eq_di</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">feq_d</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+            
+            <span class="n">bi</span><span class="p">[</span><span class="n">m</span><span class="p">:]</span> <span class="o">=</span> <span class="n">bi</span><span class="p">[</span><span class="n">m</span><span class="p">:]</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">eq_di</span><span class="o">-</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">eqi</span>
+
+            <span class="n">active</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">factive</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="n">n</span><span class="p">)</span>             
+            <span class="n">f2</span> <span class="o">=</span> <span class="n">f1</span><span class="p">[(</span><span class="n">active</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">error_tolerance</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">],:]</span>
+            
+            <span class="n">Ai</span><span class="o">=</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Ai</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">bi</span><span class="o">=</span><span class="n">f2</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bi</span><span class="p">)</span>
+            
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_position_derivatives</span><span class="p">(</span><span class="o">*</span><span class="n">state_i_full</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Ai</span><span class="p">,</span><span class="n">bi</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">x3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">[:</span><span class="n">m</span><span class="p">]]</span>
+            <span class="n">x4</span> <span class="o">=</span> <span class="n">x3</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">x4</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;done solving a = f/m and creating function&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>       </div>
+
+<div class="viewcode-block" id="System.assembleconstrained"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.assembleconstrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">assembleconstrained</span><span class="p">(</span><span class="n">eq_dyn</span><span class="p">,</span><span class="n">eq_con</span><span class="p">,</span><span class="n">q_dyn</span><span class="p">,</span><span class="n">q_con</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving constrained&#39;</span><span class="p">)</span>
+        <span class="n">AC1x_b1</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_dyn</span><span class="p">)</span>
+        <span class="n">C2x_b2</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">eq_con</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;solving Ax-b&#39;</span><span class="p">)</span>
+        
+        <span class="n">q_dyn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">q_dyn</span><span class="p">)</span>
+        <span class="n">q_con</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">q_con</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">q_dyn</span><span class="o">.</span><span class="n">col_join</span><span class="p">(</span><span class="n">q_con</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;finding x, l&#39;</span><span class="p">)</span>
+        
+        <span class="n">MASS</span> <span class="o">=</span> <span class="n">AC1x_b1</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_dyn</span><span class="p">)</span>
+        <span class="n">C1</span> <span class="o">=</span> <span class="n">AC1x_b1</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">q_con</span><span class="p">)</span>
+        <span class="n">C2</span> <span class="o">=</span> <span class="n">C2x_b2</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">AA</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">col_join</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">MASS</span><span class="p">,</span><span class="n">C1</span><span class="p">),</span><span class="n">C2</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;finding A,C1,C2&#39;</span><span class="p">)</span>
+        
+        <span class="n">b1</span> <span class="o">=</span> <span class="o">-</span><span class="n">AC1x_b1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]))</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="o">-</span><span class="n">C2x_b2</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b1</span><span class="o">.</span><span class="n">col_join</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;finished solving constrained&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AA</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span>    </div>
+        
+<div class="viewcode-block" id="System.solveconstraineddynamics"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.solveconstraineddynamics">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">solveconstraineddynamics</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">eq_dyn</span><span class="p">,</span><span class="n">eq_con</span><span class="p">,</span><span class="n">q_dyn</span><span class="p">,</span><span class="n">q_con</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;LU&#39;</span><span class="p">):</span>
+        <span class="n">AA</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">assembleconstrained</span><span class="p">(</span><span class="n">eq_dyn</span><span class="p">,</span><span class="n">eq_con</span><span class="p">,</span><span class="n">q_dyn</span><span class="p">,</span><span class="n">q_con</span><span class="p">)</span>
+        <span class="n">AA_inv</span> <span class="o">=</span> <span class="n">AA</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span><span class="p">)</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">AA_inv</span><span class="o">*</span><span class="n">b</span>
+        <span class="n">x_dyn</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">q_dyn</span><span class="p">),:]</span>
+        <span class="n">x_con</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">q_dyn</span><span class="p">):,:]</span>
+        <span class="k">return</span> <span class="n">x_dyn</span><span class="p">,</span><span class="n">x_con</span>    </div>
+
+<div class="viewcode-block" id="System.derivative"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.derivative">[docs]</a>    <span class="k">def</span> <span class="nf">derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">expression</span><span class="p">):</span>
+        <span class="c1"># for ii,a in enumerate(self.derivatives.keys()):</span>
+        <span class="c1">#     if ii==0:</span>
+        <span class="c1">#         result = expression.diff(a)*self.derivatives[a]</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         result += expression.diff(a)*self.derivatives[a]</span>
+        <span class="c1"># return result</span>
+        <span class="kn">import</span> <span class="nn">sympy</span>
+        <span class="n">all_differentiables</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">expression</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Differentiable</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">expression</span><span class="o">*</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span><span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_differentiables</span><span class="p">):</span>
+            <span class="c1"># if ii==0:</span>
+                <span class="c1"># result = expression.diff(a)*self.derivatives[a]</span>
+            <span class="c1"># else:</span>
+                <span class="c1"># result += expression.diff(a)*self.derivatives[a]</span>
+             <span class="n">result</span> <span class="o">+=</span> <span class="n">expression</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">derivatives</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">expression</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="System.get_ini"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.get_ini">[docs]</a>    <span class="k">def</span> <span class="nf">get_ini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">state_variables</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">state_variables</span> <span class="o">=</span> <span class="n">state_variables</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state_variables</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ini</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">state_variables</span><span class="p">]</span></div>
+    
+<div class="viewcode-block" id="System.add_constraint"><a class="viewcode-back" href="../../pynamics/pynamics.html#pynamics.system.System.add_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pynamics</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pynamics/modules.html"> </a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pynamics.html">pynamics</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Dan Aukes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

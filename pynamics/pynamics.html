@@ -1,0 +1,1218 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pynamics package &#8212; pynamics 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="pynamics" href="modules.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pynamics-package">
+<h1>pynamics package<a class="headerlink" href="#pynamics-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pynamics.blank_module">
+<span id="pynamics-blank-module-module"></span><h2>pynamics.blank_module module<a class="headerlink" href="#module-pynamics.blank_module" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Dec  2 13:59:46 2020</p>
+<p>&#64;author: danaukes</p>
+</section>
+<section id="module-pynamics.body">
+<span id="pynamics-body-module"></span><h2>pynamics.body module<a class="headerlink" href="#module-pynamics.body" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.body.Body">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.body.</span></span><span class="sig-name descname"><span class="pre">Body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pCM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inertia_CM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">about_point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">about_point_d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">about_point_dd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wNBody</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alNBody</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inertia_about_point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/body.html#Body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.body.Body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.body.Body.adddynamics">
+<span class="sig-name descname"><span class="pre">adddynamics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/body.html#Body.adddynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.body.Body.adddynamics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.body.Body.addforcegravity">
+<span class="sig-name descname"><span class="pre">addforcegravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gravityvector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/body.html#Body.addforcegravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.body.Body.addforcegravity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.constraint">
+<span id="pynamics-constraint-module"></span><h2>pynamics.constraint module<a class="headerlink" href="#module-pynamics.constraint" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Jun 10 18:54:50 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.constraint.AccelerationConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.constraint.</span></span><span class="sig-name descname"><span class="pre">AccelerationConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/constraint.html#AccelerationConstraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.constraint.AccelerationConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.constraint.KinematicConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.constraint.</span></span><span class="sig-name descname"><span class="pre">KinematicConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/constraint.html#KinematicConstraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.constraint.KinematicConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.constraint.KinematicConstraint.solve_numeric">
+<span class="sig-name descname"><span class="pre">solve_numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">my_constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/constraint.html#KinematicConstraint.solve_numeric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.constraint.KinematicConstraint.solve_numeric" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pynamics.constraint.OutOfTol">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.constraint.</span></span><span class="sig-name descname"><span class="pre">OutOfTol</span></span><a class="reference internal" href="../_modules/pynamics/constraint.html#OutOfTol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.constraint.OutOfTol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pynamics.dyadic">
+<span id="pynamics-dyadic-module"></span><h2>pynamics.dyadic module<a class="headerlink" href="#module-pynamics.dyadic" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.dyadic.</span></span><span class="sig-name descname"><span class="pre">Dyad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad.cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad.cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad.dot">
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad.dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad.dyads">
+<span class="sig-name descname"><span class="pre">dyads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad.dyads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad.dyads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad.rcross">
+<span class="sig-name descname"><span class="pre">rcross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad.rcross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad.rcross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyad.rdot">
+<span class="sig-name descname"><span class="pre">rdot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyad.rdot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyad.rdot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.dyadic.</span></span><span class="sig-name descname"><span class="pre">Dyadic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dyads</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.build">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ixx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iyy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Izz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ixy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Izx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.dot">
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.dyads">
+<span class="sig-name descname"><span class="pre">dyads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.dyads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.dyads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.rcross">
+<span class="sig-name descname"><span class="pre">rcross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.rcross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.rcross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.rdot">
+<span class="sig-name descname"><span class="pre">rdot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.rdot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.rdot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.dyadic.Dyadic.unit">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/dyadic.html#Dyadic.unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.dyadic.Dyadic.unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.force">
+<span id="pynamics-force-module"></span><h2>pynamics.force module<a class="headerlink" href="#module-pynamics.force" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.force.Force">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.force.</span></span><span class="sig-name descname"><span class="pre">Force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/force.html#Force"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.force.Force" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pynamics.frame">
+<span id="pynamics-frame-module"></span><h2>pynamics.frame module<a class="headerlink" href="#module-pynamics.frame" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.frame.Frame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.frame.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.add_generic">
+<span class="sig-name descname"><span class="pre">add_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.add_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.add_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.add_precomputed_generic">
+<span class="sig-name descname"><span class="pre">add_precomputed_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.add_precomputed_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.add_precomputed_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_generic">
+<span class="sig-name descname"><span class="pre">get_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_r_from">
+<span class="sig-name descname"><span class="pre">get_r_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_r_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_r_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_r_to">
+<span class="sig-name descname"><span class="pre">get_r_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_r_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_r_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_rq_from">
+<span class="sig-name descname"><span class="pre">get_rq_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_rq_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_rq_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_rq_to">
+<span class="sig-name descname"><span class="pre">get_rq_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_rq_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_rq_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_w_from">
+<span class="sig-name descname"><span class="pre">get_w_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_w_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_w_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.get_w_to">
+<span class="sig-name descname"><span class="pre">get_w_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.get_w_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.get_w_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.principal_axes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">principal_axes</span></span><a class="headerlink" href="#pynamics.frame.Frame.principal_axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.rotate_fixed_axis">
+<span class="sig-name descname"><span class="pre">rotate_fixed_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.rotate_fixed_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.rotate_fixed_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.set_child_generic">
+<span class="sig-name descname"><span class="pre">set_child_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.set_child_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.set_child_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.set_generic">
+<span class="sig-name descname"><span class="pre">set_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.set_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.set_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.set_parent_generic">
+<span class="sig-name descname"><span class="pre">set_parent_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">my_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.set_parent_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.set_parent_generic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.frame.Frame.set_w">
+<span class="sig-name descname"><span class="pre">set_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/frame.html#Frame.set_w"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.frame.Frame.set_w" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.inertia">
+<span id="pynamics-inertia-module"></span><h2>pynamics.inertia module<a class="headerlink" href="#module-pynamics.inertia" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.inertia.shift_from_cm">
+<span class="sig-prename descclassname"><span class="pre">pynamics.inertia.</span></span><span class="sig-name descname"><span class="pre">shift_from_cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I_cm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/inertia.html#shift_from_cm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.inertia.shift_from_cm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.inertia.solid_ellipsoid">
+<span class="sig-prename descclassname"><span class="pre">pynamics.inertia.</span></span><span class="sig-name descname"><span class="pre">solid_ellipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/inertia.html#solid_ellipsoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.inertia.solid_ellipsoid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.inertia.solid_parallelepiped">
+<span class="sig-prename descclassname"><span class="pre">pynamics.inertia.</span></span><span class="sig-name descname"><span class="pre">solid_parallelepiped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/inertia.html#solid_parallelepiped"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.inertia.solid_parallelepiped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.integration">
+<span id="pynamics-integration-module"></span><h2>pynamics.integration module<a class="headerlink" href="#module-pynamics.integration" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.integration.integrate">
+<span class="sig-prename descclassname"><span class="pre">pynamics.integration.</span></span><span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/integration.html#integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.integration.integrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.integration.integrate_odeint">
+<span class="sig-prename descclassname"><span class="pre">pynamics.integration.</span></span><span class="sig-name descname"><span class="pre">integrate_odeint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">arguments</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">keyword_arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/integration.html#integrate_odeint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.integration.integrate_odeint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.integration.integrate_rk">
+<span class="sig-prename descclassname"><span class="pre">pynamics.integration.</span></span><span class="sig-name descname"><span class="pre">integrate_rk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">arguments</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">keyword_arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/integration.html#integrate_rk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.integration.integrate_rk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.misc_tools">
+<span id="pynamics-misc-tools-module"></span><h2>pynamics.misc_tools module<a class="headerlink" href="#module-pynamics.misc_tools" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Dec  2 14:01:38 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.misc_tools.delete_all_local">
+<span class="sig-prename descclassname"><span class="pre">pynamics.misc_tools.</span></span><span class="sig-name descname"><span class="pre">delete_all_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'__main__'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/misc_tools.html#delete_all_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.misc_tools.delete_all_local" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.misc_tools.is_constant">
+<span class="sig-prename descclassname"><span class="pre">pynamics.misc_tools.</span></span><span class="sig-name descname"><span class="pre">is_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/misc_tools.html#is_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.misc_tools.is_constant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.misc_tools.is_literal">
+<span class="sig-prename descclassname"><span class="pre">pynamics.misc_tools.</span></span><span class="sig-name descname"><span class="pre">is_literal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/misc_tools.html#is_literal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.misc_tools.is_literal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.name_generator">
+<span id="pynamics-name-generator-module"></span><h2>pynamics.name_generator module<a class="headerlink" href="#module-pynamics.name_generator" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.name_generator.NameGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.name_generator.</span></span><span class="sig-name descname"><span class="pre">NameGenerator</span></span><a class="reference internal" href="../_modules/pynamics/name_generator.html#NameGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.name_generator.NameGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.name_generator.NameGenerator.generate_name">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/name_generator.html#NameGenerator.generate_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.name_generator.NameGenerator.generate_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.output">
+<span id="pynamics-output-module"></span><h2>pynamics.output module<a class="headerlink" href="#module-pynamics.output" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+</section>
+<section id="module-pynamics.output_generic">
+<span id="pynamics-output-generic-module"></span><h2>pynamics.output_generic module<a class="headerlink" href="#module-pynamics.output_generic" title="Permalink to this headline">¶</a></h2>
+<p>Created on Thu Nov  5 16:34:59 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.output_generic.Output">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.output_generic.</span></span><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_exp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constant_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_generic.html#Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_generic.Output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_generic.Output.calc">
+<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_generic.html#Output.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_generic.Output.calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_generic.Output.plot_time">
+<span class="sig-name descname"><span class="pre">plot_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_generic.html#Output.plot_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_generic.Output.plot_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.output_points">
+<span id="pynamics-output-points-module"></span><h2>pynamics.output_points module<a class="headerlink" href="#module-pynamics.output_points" title="Permalink to this headline">¶</a></h2>
+<p>Created on Thu Nov  5 16:32:41 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.output_points.PointsOutput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.output_points.</span></span><span class="sig-name descname"><span class="pre">PointsOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_exp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constant_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points.html#PointsOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points.PointsOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.output_generic.Output" title="pynamics.output_generic.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.output_generic.Output</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points.PointsOutput.animate">
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">movie_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points.html#PointsOutput.animate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points.PointsOutput.animate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points.PointsOutput.calc">
+<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points.html#PointsOutput.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points.PointsOutput.calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points.PointsOutput.plot_time">
+<span class="sig-name descname"><span class="pre">plot_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'b-'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points.html#PointsOutput.plot_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points.PointsOutput.plot_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points.PointsOutput.plot_time_c">
+<span class="sig-name descname"><span class="pre">plot_time_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'solid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displacement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points.html#PointsOutput.plot_time_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points.PointsOutput.plot_time_c" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.output_points_3d">
+<span id="pynamics-output-points-3d-module"></span><h2>pynamics.output_points_3d module<a class="headerlink" href="#module-pynamics.output_points_3d" title="Permalink to this headline">¶</a></h2>
+<p>Created on Thu Nov  5 16:30:38 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.output_points_3d.PointsOutput3D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.output_points_3d.</span></span><span class="sig-name descname"><span class="pre">PointsOutput3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_exp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constant_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points_3d.html#PointsOutput3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points_3d.PointsOutput3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.output_points.PointsOutput" title="pynamics.output_points.PointsOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.output_points.PointsOutput</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points_3d.PointsOutput3D.animate">
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">movie_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points_3d.html#PointsOutput3D.animate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points_3d.PointsOutput3D.animate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points_3d.PointsOutput3D.calc">
+<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points_3d.html#PointsOutput3D.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points_3d.PointsOutput3D.calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.output_points_3d.PointsOutput3D.plot_time">
+<span class="sig-name descname"><span class="pre">plot_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/output_points_3d.html#PointsOutput3D.plot_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.output_points_3d.PointsOutput3D.plot_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.particle">
+<span id="pynamics-particle-module"></span><h2>pynamics.particle module<a class="headerlink" href="#module-pynamics.particle" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.particle.Particle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.particle.</span></span><span class="sig-name descname"><span class="pre">Particle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pCM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/particle.html#Particle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.particle.Particle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.particle.PseudoParticle" title="pynamics.particle.PseudoParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.particle.PseudoParticle</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.particle.Particle.addforcegravity">
+<span class="sig-name descname"><span class="pre">addforcegravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gravityvector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/particle.html#Particle.addforcegravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.particle.Particle.addforcegravity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.particle.PseudoParticle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.particle.</span></span><span class="sig-name descname"><span class="pre">PseudoParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pCM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aCM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/particle.html#PseudoParticle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.particle.PseudoParticle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.particle.PseudoParticle.adddynamics">
+<span class="sig-name descname"><span class="pre">adddynamics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/particle.html#PseudoParticle.adddynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.particle.PseudoParticle.adddynamics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.particle.PseudoParticle.addforcegravity">
+<span class="sig-name descname"><span class="pre">addforcegravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gravityvector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/particle.html#PseudoParticle.addforcegravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.particle.PseudoParticle.addforcegravity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.quaternion">
+<span id="pynamics-quaternion-module"></span><h2>pynamics.quaternion module<a class="headerlink" href="#module-pynamics.quaternion" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue May 25 10:24:05 2021</p>
+<p>&#64;author: danaukes
+<a class="reference external" href="https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions">https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions</a>
+<a class="reference external" href="https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation">https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation</a>
+<a class="reference external" href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">Quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.build_from_axis_angle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_from_axis_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.build_from_axis_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.build_from_axis_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.conjugate">
+<span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.conjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.conjugate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.conjugation">
+<span class="sig-name descname"><span class="pre">conjugation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.conjugation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.conjugation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.expand">
+<span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.expand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.hamilton_product">
+<span class="sig-name descname"><span class="pre">hamilton_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.hamilton_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.hamilton_product" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.inv">
+<span class="sig-name descname"><span class="pre">inv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.inv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.inv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.norm">
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.norm_squared">
+<span class="sig-name descname"><span class="pre">norm_squared</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.norm_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.norm_squared" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.rotate_by">
+<span class="sig-name descname"><span class="pre">rotate_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.rotate_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.rotate_by" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.scalar">
+<span class="sig-name descname"><span class="pre">scalar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.scalar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.scalar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.sum">
+<span class="sig-name descname"><span class="pre">sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.sum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.Quaternion.vector">
+<span class="sig-name descname"><span class="pre">vector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#Quaternion.vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.Quaternion.vector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">UnitQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.quaternion.Quaternion" title="pynamics.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.quaternion.Quaternion</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion.build_from_axis_angle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_from_axis_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion.build_from_axis_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion.build_from_axis_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion.hamilton_product">
+<span class="sig-name descname"><span class="pre">hamilton_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion.hamilton_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion.hamilton_product" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion.inv">
+<span class="sig-name descname"><span class="pre">inv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion.inv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion.inv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion.rotate">
+<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion.rotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion.rotate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.quaternion.UnitQuaternion.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#UnitQuaternion.unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.UnitQuaternion.unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.quaternion.VectorQuaternion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">VectorQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#VectorQuaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.VectorQuaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.quaternion.Quaternion" title="pynamics.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.quaternion.Quaternion</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.quaternion.array">
+<span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.quaternion.cross">
+<span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.quaternion.dot">
+<span class="sig-prename descclassname"><span class="pre">pynamics.quaternion.</span></span><span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/quaternion.html#dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.quaternion.dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.rotation">
+<span id="pynamics-rotation-module"></span><h2>pynamics.rotation module<a class="headerlink" href="#module-pynamics.rotation" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.rotation.</span></span><span class="sig-name descname"><span class="pre">Rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.rotation.RotationBase" title="pynamics.rotation.RotationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.rotation.RotationBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation.build_fixed_axis">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_fixed_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation.build_fixed_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation.build_fixed_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation.get_r_from">
+<span class="sig-name descname"><span class="pre">get_r_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation.get_r_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation.get_r_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation.get_r_to">
+<span class="sig-name descname"><span class="pre">get_r_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation.get_r_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation.get_r_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation.get_rq_from">
+<span class="sig-name descname"><span class="pre">get_rq_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation.get_rq_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation.get_rq_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.Rotation.get_rq_to">
+<span class="sig-name descname"><span class="pre">get_rq_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#Rotation.get_rq_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.Rotation.get_rq_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.rotation.</span></span><span class="sig-name descname"><span class="pre">RotationBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationBase.other">
+<span class="sig-name descname"><span class="pre">other</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationBase.other"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationBase.other" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationalVelocity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.rotation.</span></span><span class="sig-name descname"><span class="pre">RotationalVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationalVelocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationalVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynamics.rotation.RotationBase" title="pynamics.rotation.RotationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.rotation.RotationBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationalVelocity.build_fixed_axis">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_fixed_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationalVelocity.build_fixed_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationalVelocity.build_fixed_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationalVelocity.get_w_from">
+<span class="sig-name descname"><span class="pre">get_w_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationalVelocity.get_w_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationalVelocity.get_w_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.rotation.RotationalVelocity.get_w_to">
+<span class="sig-name descname"><span class="pre">get_w_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#RotationalVelocity.get_w_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.RotationalVelocity.get_w_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.rotation.build_R_from_fixed_axis">
+<span class="sig-prename descclassname"><span class="pre">pynamics.rotation.</span></span><span class="sig-name descname"><span class="pre">build_R_from_fixed_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#build_R_from_fixed_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.build_R_from_fixed_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.rotation.w_from_fixed_axis">
+<span class="sig-prename descclassname"><span class="pre">pynamics.rotation.</span></span><span class="sig-name descname"><span class="pre">w_from_fixed_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/rotation.html#w_from_fixed_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.rotation.w_from_fixed_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="pynamics-signal-approx-module">
+<h2>pynamics.signal_approx module<a class="headerlink" href="#pynamics-signal-approx-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pynamics.spring">
+<span id="pynamics-spring-module"></span><h2>pynamics.spring module<a class="headerlink" href="#module-pynamics.spring" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.spring.Spring">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.spring.</span></span><span class="sig-name descname"><span class="pre">Spring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">forces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/spring.html#Spring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.spring.Spring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pynamics.system">
+<span id="pynamics-system-module"></span><h2>pynamics.system module<a class="headerlink" href="#module-pynamics.system" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.system.System">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.system.</span></span><span class="sig-name descname"><span class="pre">System</span></span><a class="reference internal" href="../_modules/pynamics/system.html#System"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_constant">
+<span class="sig-name descname"><span class="pre">add_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constant</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_constant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_constant_value">
+<span class="sig-name descname"><span class="pre">add_constant_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constant</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_constant_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_constant_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_constraint">
+<span class="sig-name descname"><span class="pre">add_constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_constraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_frame">
+<span class="sig-name descname"><span class="pre">add_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_q">
+<span class="sig-name descname"><span class="pre">add_q</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ii</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_q"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_q" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_spring_force1">
+<span class="sig-name descname"><span class="pre">add_spring_force1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stretch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_spring_force1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_spring_force1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.add_spring_force2">
+<span class="sig-name descname"><span class="pre">add_spring_force2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stretch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.add_spring_force2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.add_spring_force2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.addforce">
+<span class="sig-name descname"><span class="pre">addforce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.addforce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.addforce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.addforce_direct">
+<span class="sig-name descname"><span class="pre">addforce_direct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.addforce_direct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.addforce_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.addforcegravity">
+<span class="sig-name descname"><span class="pre">addforcegravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gravityvector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.addforcegravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.addforcegravity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.assembleconstrained">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assembleconstrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eq_dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_con</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.assembleconstrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.assembleconstrained" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.derivative">
+<span class="sig-name descname"><span class="pre">derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.generalize">
+<span class="sig-name descname"><span class="pre">generalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.generalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.generalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.generatez">
+<span class="sig-name descname"><span class="pre">generatez</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.generatez"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.generatez" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.getPEGravity">
+<span class="sig-name descname"><span class="pre">getPEGravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.getPEGravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.getPEGravity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.getPESprings">
+<span class="sig-name descname"><span class="pre">getPESprings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.getPESprings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.getPESprings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.get_KE">
+<span class="sig-name descname"><span class="pre">get_KE</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.get_KE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.get_KE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.get_ini">
+<span class="sig-name descname"><span class="pre">get_ini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.get_ini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.get_ini" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.get_q">
+<span class="sig-name descname"><span class="pre">get_q</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ii</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.get_q"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.get_q" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.get_state_variables">
+<span class="sig-name descname"><span class="pre">get_state_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.get_state_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.get_state_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.getdynamics">
+<span class="sig-name descname"><span class="pre">getdynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.getdynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.getdynamics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.remove_spring">
+<span class="sig-name descname"><span class="pre">remove_spring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spring</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.remove_spring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.remove_spring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.set_derivative">
+<span class="sig-name descname"><span class="pre">set_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.set_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.set_derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.set_ini">
+<span class="sig-name descname"><span class="pre">set_ini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.set_ini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.set_ini" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.set_newtonian">
+<span class="sig-name descname"><span class="pre">set_newtonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.set_newtonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.set_newtonian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.solveconstraineddynamics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solveconstraineddynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eq_dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LU'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.solveconstraineddynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.solveconstraineddynamics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.state_space_post_invert">
+<span class="sig-name descname"><span class="pre">state_space_post_invert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_dd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_acceleration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.state_space_post_invert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.state_space_post_invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>invert A matrix each call</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.state_space_post_invert2">
+<span class="sig-name descname"><span class="pre">state_space_post_invert2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_dd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eq_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_acceleration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.state_space_post_invert2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.state_space_post_invert2" title="Permalink to this definition">¶</a></dt>
+<dd><p>invert A matrix each call</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.system.System.state_space_pre_invert">
+<span class="sig-name descname"><span class="pre">state_space_pre_invert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LU'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_acceleration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#System.state_space_pre_invert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.System.state_space_pre_invert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.system.static_vars">
+<span class="sig-prename descclassname"><span class="pre">pynamics.system.</span></span><span class="sig-name descname"><span class="pre">static_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/system.html#static_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.system.static_vars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.tanh">
+<span id="pynamics-tanh-module"></span><h2>pynamics.tanh module<a class="headerlink" href="#module-pynamics.tanh" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jan 28 15:00:27 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.tanh.gen_spring_force">
+<span class="sig-prename descclassname"><span class="pre">pynamics.tanh.</span></span><span class="sig-name descname"><span class="pre">gen_spring_force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tanh.html#gen_spring_force"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tanh.gen_spring_force" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.time_series">
+<span id="pynamics-time-series-module"></span><h2>pynamics.time_series module<a class="headerlink" href="#module-pynamics.time_series" title="Permalink to this headline">¶</a></h2>
+<p>Created on Fri Nov  6 09:49:31 2020</p>
+<p>&#64;author: danaukes</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.time_series.build_smoothed_time_signal">
+<span class="sig-prename descclassname"><span class="pre">pynamics.time_series.</span></span><span class="sig-name descname"><span class="pre">build_smoothed_time_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_given</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_given</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbol_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_time_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadratic'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/time_series.html#build_smoothed_time_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.time_series.build_smoothed_time_signal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynamics.tree_node">
+<span id="pynamics-tree-node-module"></span><h2>pynamics.tree_node module<a class="headerlink" href="#module-pynamics.tree_node" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.tree_node.</span></span><span class="sig-name descname"><span class="pre">TreeNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">myclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.add_branch">
+<span class="sig-name descname"><span class="pre">add_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.add_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.add_branch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.build_topology">
+<span class="sig-name descname"><span class="pre">build_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ancestors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.build_topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.build_topology" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.is_connected">
+<span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.is_connected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.is_connected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.leaves">
+<span class="sig-name descname"><span class="pre">leaves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.leaves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.leaves" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.path_to">
+<span class="sig-name descname"><span class="pre">path_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.path_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.path_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.path_to_top">
+<span class="sig-name descname"><span class="pre">path_to_top</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.path_to_top"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.path_to_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.tree_node.TreeNode.top">
+<span class="sig-name descname"><span class="pre">top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/tree_node.html#TreeNode.top"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tree_node.TreeNode.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.variable_types">
+<span id="pynamics-variable-types-module"></span><h2>pynamics.variable_types module<a class="headerlink" href="#module-pynamics.variable_types" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.variable_types.Constant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.variable_types.</span></span><span class="sig-name descname"><span class="pre">Constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/variable_types.html#Constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.variable_types.Constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.core.symbol.Symbol</span></code>, <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Constant.default_assumptions">
+<span class="sig-name descname"><span class="pre">default_assumptions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pynamics.variable_types.Constant.default_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Constant.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pynamics.variable_types.Constant.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.variable_types.Differentiable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.variable_types.</span></span><span class="sig-name descname"><span class="pre">Differentiable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ini</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/variable_types.html#Differentiable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.variable_types.Differentiable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.core.symbol.Symbol</span></code>, <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Differentiable.default_assumptions">
+<span class="sig-name descname"><span class="pre">default_assumptions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pynamics.variable_types.Differentiable.default_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.variable_types.Differentiable.get_derivative">
+<span class="sig-name descname"><span class="pre">get_derivative</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/variable_types.html#Differentiable.get_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.variable_types.Differentiable.get_derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Differentiable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pynamics.variable_types.Differentiable.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.variable_types.Differentiable.set_derivative">
+<span class="sig-name descname"><span class="pre">set_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/variable_types.html#Differentiable.set_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.variable_types.Differentiable.set_derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.variable_types.Variable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.variable_types.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/variable_types.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.variable_types.Variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.core.symbol.Symbol</span></code>, <a class="reference internal" href="#pynamics.name_generator.NameGenerator" title="pynamics.name_generator.NameGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pynamics.name_generator.NameGenerator</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Variable.default_assumptions">
+<span class="sig-name descname"><span class="pre">default_assumptions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pynamics.variable_types.Variable.default_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynamics.variable_types.Variable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pynamics.variable_types.Variable.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics.vector">
+<span id="pynamics-vector-module"></span><h2>pynamics.vector module<a class="headerlink" href="#module-pynamics.vector" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynamics.vector.Vector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynamics.vector.</span></span><span class="sig-name descname"><span class="pre">Vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.add_component">
+<span class="sig-name descname"><span class="pre">add_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.add_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.add_component" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.atoms">
+<span class="sig-name descname"><span class="pre">atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.atoms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.clean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.diff_partial_local">
+<span class="sig-name descname"><span class="pre">diff_partial_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.diff_partial_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.diff_partial_local" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.dot">
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.expand">
+<span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.expand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.express">
+<span class="sig-name descname"><span class="pre">express</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.express"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.express" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.frame_cross">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frame_cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.frame_cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.frame_cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.frame_dot">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frame_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.frame_dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.frame_dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.frames">
+<span class="sig-name descname"><span class="pre">frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.frames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.length">
+<span class="sig-name descname"><span class="pre">length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.nonzero_basis_vectors">
+<span class="sig-name descname"><span class="pre">nonzero_basis_vectors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.nonzero_basis_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.nonzero_basis_vectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.product_by_basis_vectors">
+<span class="sig-name descname"><span class="pre">product_by_basis_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.product_by_basis_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.product_by_basis_vectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.product_simple">
+<span class="sig-name descname"><span class="pre">product_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.product_simple"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.product_simple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.product_simplest">
+<span class="sig-name descname"><span class="pre">product_simplest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.product_simplest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.product_simplest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.simplify">
+<span class="sig-name descname"><span class="pre">simplify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.simplify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.simplify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.split_by_frame">
+<span class="sig-name descname"><span class="pre">split_by_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.split_by_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.split_by_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.split_by_nonzero_basis_vectors">
+<span class="sig-name descname"><span class="pre">split_by_nonzero_basis_vectors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.split_by_nonzero_basis_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.split_by_nonzero_basis_vectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.subs">
+<span class="sig-name descname"><span class="pre">subs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.subs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.subs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.symbolic">
+<span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.symbolic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.time_derivative">
+<span class="sig-name descname"><span class="pre">time_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.time_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.time_derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynamics.vector.Vector.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics/vector.html#Vector.unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.vector.Vector.unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynamics">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pynamics" title="Permalink to this headline">¶</a></h2>
+<p>Written by Daniel M. Aukes
+Email: danaukes&lt;at&gt;gmail.com
+Please see LICENSE for full license.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.get_system">
+<span class="sig-prename descclassname"><span class="pre">pynamics.</span></span><span class="sig-name descname"><span class="pre">get_system</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics.html#get_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.get_system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.set_system">
+<span class="sig-prename descclassname"><span class="pre">pynamics.</span></span><span class="sig-name descname"><span class="pre">set_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modulename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics.html#set_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.set_system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.tic">
+<span class="sig-prename descclassname"><span class="pre">pynamics.</span></span><span class="sig-name descname"><span class="pre">tic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics.html#tic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.tic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynamics.toc">
+<span class="sig-prename descclassname"><span class="pre">pynamics.</span></span><span class="sig-name descname"><span class="pre">toc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pynamics.html#toc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynamics.toc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pynamics</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html"> </a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pynamics package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">pynamics</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">pynamics</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Dan Aukes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/pynamics/pynamics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
